@@ -41,11 +41,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
+var opensea_js_1 = require("opensea-js");
+var axios_1 = __importDefault(require("axios"));
+var osClient = new opensea_js_1.OpenSeaAPI({
+    apiKey: process.env.OS_KEY,
+});
 var router = express_1.default.Router();
-router.get("/", (0, express_async_handler_1.default)(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        res.send("hello world");
+var last = Date.now();
+router.get("/axios", (0, express_async_handler_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, start, end;
+    return __generator(this, function (_b) {
+        _a = req.body, start = _a.start, end = _a.end;
+        console.log("start: ".concat(start));
+        console.log("end: ".concat(end));
+        res.send("working");
         return [2 /*return*/];
     });
 }); }));
+router.get("/", (0, express_async_handler_1.default)(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, axios_1.default)({
+                    url: "http://localhost:3000/axios",
+                    method: "get",
+                    data: {
+                        start: 30,
+                        end: 50,
+                    },
+                })];
+            case 1:
+                result = _a.sent();
+                res.status(result.status).send(result.data);
+                return [2 /*return*/];
+        }
+    });
+}); }));
+function printSinceLast() {
+    var now = Date.now();
+    var toPrint = "".concat(Math.round((now - last) / 100) / 10, " seconds since last request.");
+    console.log(toPrint);
+    last = now;
+}
 exports.default = router;
