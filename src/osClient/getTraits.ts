@@ -2,18 +2,18 @@ import { OpenSeaAPI } from "opensea-js";
 import { rklAddress } from "./constants";
 import { writeFileSync } from "fs";
 import { sleep } from "./utils";
-import cliProgress, { Bar } from "cli-progress";
+// import cliProgress from "cli-progress";
 import { OpenSeaAsset } from "opensea-js/lib/types";
 
 async function getTraits(os: OpenSeaAPI) {
   let prom = new Promise(async (res, rej) => {
     const incr = 20;
-    let bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+    // let bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     let curr = 0;
     let orders: OpenSeaAsset[] = [];
     let consecFails = 0;
 
-    bar.start(10_000, 0);
+    // bar.start(10_000, 0);
     while (curr < 10_000) {
       try {
         const ids = Array(Math.min(10_000 - curr, incr))
@@ -25,7 +25,7 @@ async function getTraits(os: OpenSeaAPI) {
         });
         consecFails = 0;
         curr += incr;
-        bar.update(curr);
+        // bar.update(curr);
         orders = orders.concat(...res.assets);
         await sleep(250);
         /* const res = await os.getOrders({
@@ -43,7 +43,7 @@ async function getTraits(os: OpenSeaAPI) {
         await sleep(toWait);
       }
     }
-    bar.stop();
+    // bar.stop();
     res(orders);
   });
   let data = await prom;

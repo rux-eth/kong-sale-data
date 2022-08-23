@@ -1,17 +1,16 @@
 import { OpenSeaAPI } from "opensea-js";
 import { OrderV2 } from "opensea-js/lib/orders/types";
 import { rklAddress } from "./constants";
-import { writeFileSync } from "fs";
 import { sleep } from "./utils";
-import cliProgress, { Bar } from "cli-progress";
+// import cliProgress from "cli-progress";
 
 async function updateSales(os: OpenSeaAPI): Promise<OrderV2[]> {
   let prom: Promise<OrderV2[]> = new Promise(async (res, rej) => {
-    let bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+    // let bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     let curr = 0;
     let orders: OrderV2[] = [];
     let consecFails = 0;
-    bar.start(10_000, 0);
+    // bar.start(10_000, 0);
     while (curr < 10_000) {
       try {
         const ids = Array(Math.min(10_000 - curr, 30))
@@ -26,7 +25,7 @@ async function updateSales(os: OpenSeaAPI): Promise<OrderV2[]> {
         });
         consecFails = 0;
         curr += 30;
-        bar.update(curr);
+        // bar.update(curr);
         orders = orders.concat(...res.orders);
         await sleep(250);
       } catch (e) {
@@ -37,7 +36,7 @@ async function updateSales(os: OpenSeaAPI): Promise<OrderV2[]> {
         await sleep(toWait);
       }
     }
-    bar.stop();
+    // bar.stop();
     res(orders);
   });
   let data = await prom;
