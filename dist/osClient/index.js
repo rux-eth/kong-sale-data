@@ -38,54 +38,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var routes_1 = __importDefault(require("./routes"));
-var dotenv_1 = require("dotenv");
-var body_parser_1 = __importDefault(require("body-parser"));
-var opensea_js_1 = require("opensea-js");
-var osClient_1 = __importDefault(require("./osClient"));
-var mongodb_1 = require("mongodb");
-var utils_1 = require("./utils");
-(0, dotenv_1.config)();
-var os = (0, osClient_1.default)(new opensea_js_1.OpenSeaAPI({
-    apiKey: process.env.OS_KEY,
-}));
-(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var client, data, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, new mongodb_1.MongoClient(process.env.MONGO_URL).connect()];
-            case 1:
-                client = _a.sent();
-                _a.label = 2;
-            case 2:
-                _a.trys.push([2, 5, 6, 8]);
-                return [4 /*yield*/, os.updateSales()];
-            case 3:
-                data = _a.sent();
-                return [4 /*yield*/, (0, utils_1.updateMongo)(client, data)];
-            case 4:
-                _a.sent();
-                return [3 /*break*/, 8];
-            case 5:
-                e_1 = _a.sent();
-                console.error(e_1);
-                return [3 /*break*/, 8];
-            case 6: return [4 /*yield*/, client.close()];
-            case 7:
-                _a.sent();
-                return [7 /*endfinally*/];
-            case 8: return [2 /*return*/];
-        }
-    });
-}); })();
-var PORT = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
-var app = (0, express_1.default)();
-app.use(body_parser_1.default.urlencoded({ extended: true }));
-app.use("/", routes_1.default);
-app.use("/axios", routes_1.default);
-app.listen(PORT, function () {
-    console.log("Listening at http://localhost:3000");
-});
+var getTraits_1 = __importDefault(require("./getTraits"));
+var updateSales_1 = __importDefault(require("./updateSales"));
+function osClient(os) {
+    var _this = this;
+    var client = {
+        updateSales: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/, (0, updateSales_1.default)(os)];
+        }); }); },
+        getTraits: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/, (0, getTraits_1.default)(os)];
+        }); }); },
+    };
+    return client;
+}
+exports.default = osClient;
