@@ -104,9 +104,9 @@ var parseTraits = function (assets) {
 };
 exports.parseTraits = parseTraits;
 var updateMongo = function (mongo, data) { return __awaiter(void 0, void 0, void 0, function () {
-    var parsedSales, allKongData, i, temp, collection;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var parsedSales, allKongData, i, temp, collection, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 parsedSales = (0, exports.parseSales)(data);
                 allKongData = [];
@@ -120,12 +120,19 @@ var updateMongo = function (mongo, data) { return __awaiter(void 0, void 0, void
                     allKongData.push(__assign(__assign({ token_id: i, name: "Kong #".concat(i), bio: null }, temp), traits_1.default[i]));
                 }
                 collection = mongo.db(constants_1.DATABASE).collection(constants_1.COLLECTION);
-                return [4 /*yield*/, collection.drop()];
+                _b.label = 1;
             case 1:
-                _a.sent();
-                return [4 /*yield*/, collection.insertMany(allKongData)];
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, collection.drop()];
             case 2:
-                _a.sent();
+                _b.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 4: return [4 /*yield*/, collection.insertMany(allKongData)];
+            case 5:
+                _b.sent();
                 return [2 /*return*/];
         }
     });

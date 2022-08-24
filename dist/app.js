@@ -11,7 +11,6 @@ var PORT = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 var app = (0, express_1.default)();
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use("/", routes_1.default);
-app.use("/axios", routes_1.default);
 app.listen(PORT, function () {
     console.log("Listening at http://localhost:3000");
 });
