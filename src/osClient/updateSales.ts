@@ -24,6 +24,7 @@ async function updateSales(os: OpenSeaAPI): Promise<OrderV2[]> {
           orderBy: "created_date",
           orderDirection: "desc",
         });
+
         consecFails = 0;
         curr += 30;
         bar.update(curr);

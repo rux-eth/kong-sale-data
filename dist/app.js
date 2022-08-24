@@ -49,49 +49,48 @@ var os = (0, osClient_1.default)(new opensea_js_1.OpenSeaAPI({
     apiKey: process.env.OS_KEY,
 }));
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var client, data, e_1;
+    var isLoading;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                /*   setTimeout(async () => {
-                  const client = await new MongoClient(process.env.MONGO_URL!).connect();
-              
-                  try {
-                    const data = await os.updateSales();
-                    await updateMongo(client, data);
-                  } catch (e) {
-                    console.error(e);
-                  } finally {
-                    await client.close();
-                  }
-                }, 600_000); */
-                console.time("sales");
-                return [4 /*yield*/, new mongodb_1.MongoClient(process.env.MONGO_URL).connect()];
-            case 1:
-                client = _a.sent();
-                _a.label = 2;
-            case 2:
-                _a.trys.push([2, 5, 6, 8]);
-                return [4 /*yield*/, os.updateSales()];
-            case 3:
-                data = _a.sent();
-                return [4 /*yield*/, (0, utils_1.updateMongo)(client, data)];
-            case 4:
-                _a.sent();
-                return [3 /*break*/, 8];
-            case 5:
-                e_1 = _a.sent();
-                console.error(e_1);
-                return [3 /*break*/, 8];
-            case 6: return [4 /*yield*/, client.close()];
-            case 7:
-                _a.sent();
-                return [7 /*endfinally*/];
-            case 8:
-                console.log("\n");
-                console.timeEnd("sales");
-                return [2 /*return*/];
-        }
+        isLoading = false;
+        setTimeout(function () { return __awaiter(void 0, void 0, void 0, function () {
+            var client, data, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!isLoading) return [3 /*break*/, 9];
+                        isLoading = true;
+                        console.time("sales");
+                        return [4 /*yield*/, new mongodb_1.MongoClient(process.env.MONGO_URL).connect()];
+                    case 1:
+                        client = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 5, 6, 8]);
+                        return [4 /*yield*/, os.updateSales()];
+                    case 3:
+                        data = _a.sent();
+                        return [4 /*yield*/, (0, utils_1.updateMongo)(client, data)];
+                    case 4:
+                        _a.sent();
+                        return [3 /*break*/, 8];
+                    case 5:
+                        e_1 = _a.sent();
+                        console.error(e_1);
+                        return [3 /*break*/, 8];
+                    case 6: return [4 /*yield*/, client.close()];
+                    case 7:
+                        _a.sent();
+                        return [7 /*endfinally*/];
+                    case 8:
+                        console.log("\n");
+                        console.timeEnd("sales");
+                        isLoading = false;
+                        _a.label = 9;
+                    case 9: return [2 /*return*/];
+                }
+            });
+        }); }, 600000);
+        return [2 /*return*/];
     });
 }); })();
 /* import express from "express";

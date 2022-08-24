@@ -10,20 +10,37 @@ const os = osClient(
   })
 );
 (async () => {
+  let isLoading = false;
   setTimeout(async () => {
-    console.time("sales");
-    const client = await new MongoClient(process.env.MONGO_URL!).connect();
-    try {
-      const data = await os.updateSales();
-      await updateMongo(client, data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      await client.close();
+    if (!isLoading) {
+      isLoading = true;
+      console.time("sales");
+      const client = await new MongoClient(process.env.MONGO_URL!).connect();
+      try {
+        const data = await os.updateSales();
+        await updateMongo(client, data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await client.close();
+      }
+      console.log("\n");
+      console.timeEnd("sales");
+      isLoading = false;
     }
-    console.log("\n");
-    console.timeEnd("sales");
   }, 600_000);
+  /*   console.time("sales");
+  const client = await new MongoClient(process.env.MONGO_URL!).connect();
+  try {
+    const data = await os.updateSales();
+    await updateMongo(client, data);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+  console.log("\n");
+  console.timeEnd("sales"); */
 })();
 /* import express from "express";
 import routes from "./routes";
