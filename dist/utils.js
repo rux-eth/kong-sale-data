@@ -72,10 +72,12 @@ var parseSales = function (sales) {
         }
         var formatPrice = parseInt(price, 10) / denom;
         ids.forEach(function (id) {
-            data[id] = {
-                current_price: formatPrice,
-                currency: currency !== null && currency !== void 0 ? currency : "unknown",
-            };
+            if (!(id in data)) {
+                data[id] = {
+                    current_price: formatPrice,
+                    currency: currency !== null && currency !== void 0 ? currency : "unknown",
+                };
+            }
         });
     };
     for (var i = 0; i < sales.length; i++) {
@@ -104,35 +106,33 @@ var parseTraits = function (assets) {
 };
 exports.parseTraits = parseTraits;
 var updateMongo = function (mongo, data) { return __awaiter(void 0, void 0, void 0, function () {
-    var parsedSales, allKongData, i, temp, collection, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var parsedSales, allKongData, i, collection, _a;
+    var _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
                 parsedSales = (0, exports.parseSales)(data);
                 allKongData = [];
                 for (i = 0; i < 10000; i++) {
-                    temp = i in parsedSales
-                        ? parsedSales[i]
-                        : {
-                            currency: null,
-                            current_price: null,
-                        };
-                    allKongData.push(__assign(__assign({ token_id: i, name: "Kong #".concat(i), bio: null }, temp), traits_1.default[i]));
+                    allKongData.push(__assign(__assign({ token_id: i, name: "Kong #".concat(i), bio: null }, ((_b = parsedSales[i]) !== null && _b !== void 0 ? _b : {
+                        currency: null,
+                        current_price: null,
+                    })), traits_1.default[i]));
                 }
                 collection = mongo.db(constants_1.DATABASE).collection(constants_1.COLLECTION);
-                _b.label = 1;
+                _c.label = 1;
             case 1:
-                _b.trys.push([1, 3, , 4]);
+                _c.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, collection.drop()];
             case 2:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 4];
             case 3:
-                _a = _b.sent();
+                _a = _c.sent();
                 return [3 /*break*/, 4];
             case 4: return [4 /*yield*/, collection.insertMany(allKongData)];
             case 5:
-                _b.sent();
+                _c.sent();
                 return [2 /*return*/];
         }
     });

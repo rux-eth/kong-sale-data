@@ -28,10 +28,12 @@ export const parseSales = (sales: OrderV2[]) /* : KongData[] */ => {
     }
     const formatPrice = parseInt(price, 10) / denom;
     ids.forEach((id) => {
-      data[id] = {
-        current_price: formatPrice,
-        currency: currency ?? "unknown",
-      };
+      if (!(id in data)) {
+        data[id] = {
+          current_price: formatPrice,
+          currency: currency ?? "unknown",
+        };
+      }
     });
   };
   for (let i = 0; i < sales.length; i++) {
@@ -69,18 +71,14 @@ export const updateMongo = async (
   const parsedSales = parseSales(data);
   let allKongData: KongData[] = [];
   for (let i = 0; i < 10_000; i++) {
-    const temp: SaleData =
-      i in parsedSales
-        ? parsedSales[i]
-        : {
-            currency: null,
-            current_price: null,
-          };
     allKongData.push({
       token_id: i,
       name: `Kong #${i}`,
       bio: null,
-      ...temp,
+      ...(parsedSales[i] ?? {
+        currency: null,
+        current_price: null,
+      }),
       // @ts-ignore
       ...kongTraits[i],
     });
