@@ -87,7 +87,9 @@ export const updateMongo = async (
   }
 
   const collection = mongo.db(DATABASE).collection(COLLECTION);
-  await collection.drop();
+  try {
+    await collection.drop();
+  } catch {}
   await collection.insertMany(allKongData);
   return;
 };
