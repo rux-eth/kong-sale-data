@@ -5,7 +5,7 @@
   "main": "./src/app.ts",
   "scripts": {
     "dev": "nodemon",
-    "start": "node --max_old_space_size=2560 ./dist/app.js"
+    "start": "node ./dist/app.js"
   },
   "keywords": [],
   "author": "",
