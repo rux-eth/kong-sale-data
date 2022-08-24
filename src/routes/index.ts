@@ -5,13 +5,13 @@ import { OpenSeaAPI } from "opensea-js";
 import osClient from "../osClient";
 import { MongoClient } from "mongodb";
 import { updateMongo } from "../utils";
-config();
+/* config();
 const os = osClient(
   new OpenSeaAPI({
     apiKey: process.env.OS_KEY!,
   })
-);
-(async () => {
+); */
+/* (async () => {
   setTimeout(async () => {
     const client = await new MongoClient(process.env.MONGO_URL!).connect();
 
@@ -24,7 +24,7 @@ const os = osClient(
       await client.close();
     }
   }, 600_000);
-  /*   const client = await new MongoClient(process.env.MONGO_URL!).connect();
+    const client = await new MongoClient(process.env.MONGO_URL!).connect();
 
   try {
     const data = await os.updateSales();
@@ -33,8 +33,8 @@ const os = osClient(
     console.error(e);
   } finally {
     await client.close();
-  } */
-})();
+  }
+})(); */
 const router = express.Router();
 
 router.get("/", (req, res) => {

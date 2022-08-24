@@ -7,7 +7,6 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", routes);
-app.use("/axios", routes);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:3000`);
